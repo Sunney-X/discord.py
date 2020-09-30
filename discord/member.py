@@ -177,7 +177,6 @@ class Member(discord.abc.Messageable, _BaseUser):
         }
         self.activities = tuple(map(create_activity, data.get('activities', [])))
         self.nick = data.get('nick', None)
-        self.valid_name = len(self.display_name().split(' ')) > 1
 
     def __str__(self):
         return str(self._user)
@@ -325,6 +324,9 @@ class Member(discord.abc.Messageable, _BaseUser):
         """:class:`bool`: A helper function that determines if a member is active on a mobile device."""
         return 'mobile' in self._client_status
 
+    def is_unnamed(self):
+        return 'Unnamed' in [role.name for role in self.roles]
+
     @property
     def colour(self):
         """:class:`Colour`: A property that returns a colour denoting the rendered colour
@@ -388,6 +390,9 @@ class Member(discord.abc.Messageable, _BaseUser):
         is returned instead.
         """
         return self.nick if self.nick is not None else self.name
+
+    def has_valid_name(self):
+        return len(self.display_name.split(' ')) > 1
 
     @property
     def activity(self):
