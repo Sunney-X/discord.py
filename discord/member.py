@@ -177,6 +177,7 @@ class Member(discord.abc.Messageable, _BaseUser):
         }
         self.activities = tuple(map(create_activity, data.get('activities', [])))
         self.nick = data.get('nick', None)
+        self.valid_name = len(self.display_name().split(' ')) > 1
 
     def __str__(self):
         return str(self._user)
